@@ -1,0 +1,202 @@
+#!/bin/bash
+#useful utilities by Jonathan Gurr to help with bash and other stuff
+
+#General
+doFuncNTimes() {
+  func=$1
+  n=$2
+  if [[ $n -ge 0 ]]; then
+    for i in $(seq $n); do
+      $func
+    done
+  else
+    echo "$n is less than 0, so no function is possible"
+  fi
+}
+
+
+#Git
+gl () {
+    git --no-pager log -n ${lines:-20} --decorate --pretty=tformat:"%C(#fda63a) %h %Creset %<(25)%ci %C(auto)%d%Creset %s" "$@"
+}
+
+grb() { #git rebase head
+  if [[ $# -eq 0 ]]; then
+    git rebase -i HEAD~2
+  else
+    git rebase -i HEAD~$1
+  fi
+}
+
+grn() {
+  git commit --amend -m "$1"
+}
+
+gacp() {
+  local message=$*
+  git add .
+  git commit -m "$message"
+  git push
+}
+
+gac() {
+  local message=$*
+  git add .
+  git commit -m "$message"
+}
+
+grb() {
+  git rebase -i HEAD~$1
+}
+
+gsq() {
+  gac "."
+  grb 2
+}
+
+gnum() {
+  git rev-list --count HEAD
+}
+
+gnumday() {
+  git log --date=short --pretty=format:'%ad' | sort | uniq -c
+}
+
+unset parse_git_branch
+parse_git_branch() {
+  local p=$PWD
+  while [[ "$p" =~ / ]]; do
+    if [ -d $p/.git ]; then
+      local r=$(cat $p/.git/HEAD)
+      if [[ "$r" =~ refs/heads ]]; then
+        echo "$r" | sed -E 's/.*\/(.*)/ \[\1\]/'
+      else
+        git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \[\1\]/'
+      fi
+      break
+    fi
+    p=${p%/*}
+  done
+}
+
+alias gs='git status'
+alias gc='git checkout'
+alias gu='git reset --hard && git clean -df'
+alias gd='git diff'
+alias gb='git branch'
+alias gsw='git switch -'
+
+#bash
+declare -a pathHistory=()
+pathIndex=-1
+cdCount=0
+
+cd() {
+ if [[ -d $1 ]] || [[ $1 == "" ]]; then
+   builtin cd "$@"
+   isDuplicate=false
+	 if [[ "$(pwd)" == "${pathHistory[$pathIndex]}" ]]; then
+		isDuplicate=true
+	 elif [[ "$(pwd)" == "${pathHistory[$pathIndex + 1]}" ]]; then
+		isDuplicate=true
+		pathIndex=$((pathIndex+1))
+	 fi
+	 if [[ $isDuplicate == "false" ]]; then
+		 if [[ $pathIndex -ne $((${#pathHistory[@]}-1)) ]]; then
+			 pathHistory=("${pathHistory[@]:0:$(($pathIndex+1))}" "$(pwd)" "${pathHistory[@]:$(($pathIndex+1))}")
+		 else
+			 pathHistory+=( "$(pwd)" )
+		 fi
+		 pathIndex=$((pathIndex+1))
+		 cdCount=$((cdCount+1))
+	 fi
+ fi
+}
+
+pd() { #cd to previous directory with unlimited steps (not just toggling from one to another like cd - )
+  f() {
+    for i in {1..$1}; do
+      if [[ $pathIndex -gt 0 ]]; then
+        pathIndex=$(($pathIndex - 1))
+        currentPath="${pathHistory[$pathIndex]}"
+        builtin cd $currentPath
+      fi
+    done
+  }
+  if [[ $1 -gt 0 ]]; then
+    doFuncNTimes f $1
+  else
+    f
+  fi
+  h
+}
+
+nd() { #cd to next directory with unlimited steps (back to the directory I was in when I ran pd)
+  f() {
+    if [[ $pathIndex -lt $((${#pathHistory[@]} - 1)) ]]; then
+      pathIndex=$(($pathIndex + 1))
+      currentPath="${pathHistory[$pathIndex]}"
+      builtin cd $currentPath
+    fi
+  }
+  if [[ $1 -gt 0 ]]; then
+    doFuncNTimes f $1
+  else
+    f
+  fi
+  h
+}
+
+set -u
+
+h() {
+  if [[ ${#pathIndex} -lt 0 ]]; then
+    echo pathHistory currently empty
+  else
+    for((i = 0; i < ${#pathHistory[@]}; i++)); do
+      if [[ $i -eq $pathIndex ]]; then
+        echo -n ${pathHistory[$i]}
+        echo " <--"
+      else
+        echo ${pathHistory[$i]}
+      fi
+    done
+  fi
+}
+
+set +u
+
+alias up='cd ..'
+alias bd=pd
+alias fd=nd
+
+#network
+google() {
+  echo "Searched for: $@"
+  search=""
+  for term in $@ ; do
+    search="$search%20$term"
+  done
+  open "http://www.google.com/search?q=$search"
+}
+
+http() {
+  #domain port urlPath
+  #localhost:8888/
+  fullPath=$1
+  domain=${fullPath%%:*}
+  temp=${fullPath%%/*}
+  port=${temp#*:}
+  url=/${fullPath#*/}
+  echo -e "GET ${url:-/} HTTP/1.1\n" | nc -v -w 2 $domain $port;
+  echo
+}
+
+alias g='google'
+
+#editor
+set -o vi
+set nobackup //I don not totally understand this command, so if we end up still needing it, put it back in .profile
+
+alias vi='vim'
+alias vp='vi ~/.profile'
