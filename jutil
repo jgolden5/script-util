@@ -123,7 +123,11 @@ pd() { #cd to previous directory with unlimited steps (not just toggling from on
       fi
     done
   }
-	doFuncNTimes f $1
+	if [[ $# -gt 0 ]]; then
+		doFuncNTimes f $1
+	else
+		f
+	fi
   h
 }
 
@@ -135,10 +139,48 @@ nd() { #cd to next directory with unlimited steps (back to the directory I was i
       builtin cd $currentPath
     fi
   }
+	if [[ $# -gt 0 ]]; then
+		doFuncNTimes f $1
+	else
+		f
+	fi
   h
 }
 
-h() {
+rd() { #remove current directory in pathHistory
+	currentPath="${pathHistory[$pathIndex]}"
+	while true; do
+		if [[ $1 == "-f" ]]; then #force remove dir
+			yn='y'
+		else
+			read -p "Are you sure you want to remove directory $currentPath from path history? " yn
+		fi
+		case $yn in
+			[Yy]* )
+				unset pathHistory[$pathIndex]
+				pathHistory=("${pathHistory[@]}") #reindex array, otherwise unset values still keep their previous indices
+				echo "current path $currentPath was unset"
+				echo "current path size = ${#pathHistory[@]}"
+				if [[ $pathIndex -ge ${#pathHistory[@]} ]]; then
+					pathIndex=$((--pathIndex))
+					echo path index was decremented to $pathIndex
+				fi
+				currentPath="${pathHistory[$pathIndex]}"
+				builtin cd $currentPath
+				break
+				;;
+			[Nn]* )
+				echo "ok then."
+				break
+				;;
+			* )
+				echo "Please answer yes or no."
+				;;
+		esac
+	done
+}
+
+h() { #display path history, specifying the current path
   if [[ ${#pathIndex} -lt 0 ]]; then
     echo pathHistory currently empty
   else
