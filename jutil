@@ -237,7 +237,7 @@ http() {
 
 alias g='google'
 
-#editor
+#vim
 set -o vi
 set nobackup //I don not totally understand this command, so if we end up still needing it, put it back in .profile
 
