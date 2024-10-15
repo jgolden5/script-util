@@ -1,7 +1,7 @@
 #!/bin/bash
 #stupid utilities made by Jonathan Gurr for fun but are really rather dumb
 stupid=stutil
-#stupid stuff
+#general
 vector() {
   say Victor was my nerd name. Now, I am Vector! With both direction, and magnitude! Oh Yeah.
 }
@@ -134,4 +134,15 @@ moodSwing() {
     #no mood match found
     say "You blew my brains somehow."
   fi
+}
+
+#prompt
+oldPS1=""
+getStupidPrompt() {
+	oldPS1=$PS1
+	PS1='\[\e[38;5;163m\]X               X\n\[\e[38;5;51m\]        \[\e[96m\]\#\n\[\e[97m\]|_______________|\n\[\e[0m\]----\[\e[38;5;214;1m\]\u\[\e[0m\]---- '
+}
+
+getOldPrompt() {
+	PS1=$oldPS1
 }
