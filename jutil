@@ -14,6 +14,20 @@ doFuncNTimes() {
   fi
 }
 
+readOutLoud() {
+	if [[ -f $1 ]]; then 
+		echo "reading file $1..."
+		cat $1 | say
+	elif [[ -d $1 ]]; then
+		echo "reading directory $1..."
+		cat $1/* | say
+	else
+		echo "reading string $1..."
+		say "$1"
+	fi
+}
+
+alias r='readOutLoud'
 
 #Git
 gl () {
