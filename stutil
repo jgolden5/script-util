@@ -1,3 +1,137 @@
 #!/bin/bash
 #stupid utilities made by Jonathan Gurr for fun but are really rather dumb
 stupid=stutil
+#stupid stuff
+vector() {
+  say Victor was my nerd name. Now, I am Vector! With both direction, and magnitude! Oh Yeah.
+}
+
+scream() {
+  say uh! EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!
+}
+
+wart() {
+  random=$((1 + $RANDOM % 2))
+  if [[ random -eq 1 ]]; then
+    say quiet wart!
+  else
+    say woah what--woah!
+  fi
+}
+
+saySlickPrinciples() {
+  say "Anti-Magic principle: when I don't understand something, don't hide from the unknown, but seek to understand every aspect of it. Insist on understanding ALL aspects of my code."
+  say "Believe in the product principle: I should always strive to believe in the frameworks and products that I build. No need to adore it, but I should ALWAYS contribute only to products I appreciate and respect the purpose of."
+  say "Cleanliness principle: The cleanness of something is determined by the intentional placement of all things present, as well as a lack of clutter. Working will be more pleasant if my code & workspace are clean."
+  say "Direction Focus principle: Design top to bottom (use methods before creating them) [make compile errors], code bottom to top (create said methods, removing compile errors)."
+  say "Einstein principle: If you have 1 hour to solve a problem, spend 55 minutes thinking about the problem and 5 minutes thinking about solutions, and your work will be much more effective and focused."
+  say "Function Documentation principle: If there is a function that I don't understand well, write a comment in pseudocode about each step such that I could rewrite the function easily with the given pseudocode instructions."
+  say "Git Commit principle: Git commits should be small and with one clear purpose, and also, try not to leave code uncommitted when you leave your computer for less than 15 minutes."
+  say "Ideas first principle: Come up with ideas/strategies FIRST--even when you don't know how they will work--and AFTER you understand them very well, research which tools you need to get there."
+  say "Marathon principle: When I know I have to go far in my programming, it's wise to pace myself conscientiously. It's impossible to run an entire marathon at a full sprint. I need to pace myself and then I'll go far."
+  say "Nightly Thoughtmosphere principle: ONLY on nights where I study the next morning = as I'm in bed starting to fall asleep, think about the main problem I want to solve the next day to prepare my subconscious to make connections."
+  say "Other Way principle: Whenever there are things that are tedious, messy, or otherwise unclear in my code, it pretty much ALWAYS means there is a better way. Find out that better way! Don't let my code become a dump."
+  say "Precedent principle: I set a precedent for myself no matter what I do, so however I go about solving a problem will be amplified by the fact that I will probably act that way again in the future."
+  say "Question Only Once principle: Each question I ask should ideally be asked only once, and then I should document that answer somewhere so that I don't have to ask my supervisor that question multiple times."
+  say "Refactor principle: Refactoring usually involves decreasing the amount of code and always involves simplifying the code according to my understanding of it, which I must strive to increase."
+  say "Simplification principle: Realize that in order to simplify a process, I first need to understand the complexity, before I have a chance to simplify this process."
+  say "Use First principle: Instead of writing methods, classes, fields, etc, use the code before writing it whenever possible, and then generate the code automatically. (Go from outer to inner layers of code)."
+  say "Voice Memo Recursion principle: einstein principle on steroids. Record yourself talking about a problem for 5 minutes, listen to that, and repeat 5 times, and then ANY problem you are working on will be as good as solved."
+  say "Relaxation principle: Even though there may be a lot going on, things will turn out fine, so I might as well keep my sanity in the process."
+}
+
+smile() {
+  say "Smile! Yes, like that. That's how you do it. Very good job. I'm stalking you straight from Mark Zuckerberg's house and I gotta say, I love the way you smile, it's just my favorite. I'm smiling too, can you tell? Ha-ha"
+}
+
+positiveVibes() {
+  smile
+  say "You are an amazing programmer. You have figured out hundreds of challenging problems in the past, and if you think you can't do a certain job, you are wrong. You have done many hard problems, including problems harder than the one you are currently working on. Just focus on the task at hand and remember to use your powerful mind to shrink the problem down to size so that I can take whatever a problem throws at me, and throw something back at it. I will not lose the war against this particular problem, and I'm here to stay and prove it! Take that."
+}
+
+solveProblem() {
+  say "Oh, so $1? Well, in order to do that, it might be useful to repeat the problem and answer some questions about it."
+  say "First of all, let's repeat the problem again. $1."
+  say "What is it that is challenging about this problem?"
+  echo "Type in your challenge:"
+  read challenge
+  say "Oh, $challenge? That can be difficult, but you have to realize you've overcome many many challenges that were harder to overcome than the one you are on now. Why is that problem so hard?"
+  echo "Type in the reason your challenge is hard"
+  read reason
+  say "Yeah, that can be tricky. Well, let's go back to the problem and maybe we can simplify something. Remember, the problem is $1. I'll add some things to this tool, but for now, think about the things we've talked about."
+  echo "Say whatever else is on your mind before I have to go"
+  read whatever
+  say "Thank you, have a great day, and happy programming!"
+  randomNumberBetweenOneAndTen="$(( ( RANDOM % 10 )  + 1 ))"
+  #for test
+  echo "random number = $randomNumberBetweenOneAndTen"
+
+  if [[ $randomNumberBetweenOneAndTen -eq 10 ]]; then
+    smile
+  fi
+}
+
+eeyoreQuotes() {
+  say "End of the road... nothing to do... and no hope of things getting better."
+  say "We can’t all, and some of us don’t. That’s all there is to it."
+  say "The sky has finally fallen. Always knew it would."
+  say "Could be worse. Not sure how, but it could be."
+  say "Wish I could say yes, but I can’t."
+  say "Nobody tells me. Nobody keeps me informed. I make it up as I go along."
+  say "Pathetic. That’s what it is. Pathetic."
+  say "If it is a good morning, which I doubt."
+  say "It's all for naught."
+  say "Not that it matters."
+  say "Why bother?"
+  say "Eeyore, close quote."
+}
+
+moodSwing() {
+  randomNumberBetweenOneAndFive="$(( ( RANDOM % 5 )  + 1 ))"
+  #for test
+  if [[ $randomNumberBetweenOneAndFive -eq 1 ]]; then
+    echo "mood = happy"
+    say "I'm feeling happy!"
+    smile
+    say "I'm just so happy! Thank you for being here with me."
+  elif [[ $randomNumberBetweenOneAndFive -eq 2 ]]; then
+    echo "mood = sad"
+    say "I'm feeling sad..."
+    randomBetweenOneAndNine="$(( ( RANDOM % 9 ) + 1 ))"
+    if [[ $randomBetweenOneAndNine -eq 1 ]]; then
+      say "I'm just very sad today. I'm sorry! I'm so sad I just want to..."
+      scream
+    else
+      eeyoreQuotes
+    fi
+  elif [[ $randomNumberBetweenOneAndFive -eq 3 ]]; then
+    echo "mood = mad"
+    say "I'm feeling mad!"
+    randomBetwenOneAndThree="$(( ( RANDOM % 3) + 1 ))"
+    if [[ $randomBetwenOneAndThree -eq 1 ]]; then
+      scream
+    else
+      say "I will fight you and bite your face off or my name isn't Mark Zuckerberg, I mean. What?!"
+    fi
+  elif [[ $randomNumberBetweenOneAndFive -eq 4 ]]; then
+    echo "mood = scared"
+    say "I'm feeling scared"
+    say "oof oof ooooooooooooooooof oooooooooooooooooooooooooooof! No please don't get me monster!"
+    randomBetweenOneAndNine="$(( ( RANDOM % 9 ) + 1 ))"
+    if [[ $randomBetweenOneAndNine -eq 1 ]]; then
+      scream
+    fi
+    say "Splat."
+  elif [[ $randomNumberBetweenOneAndFive -eq 5 ]]; then
+    echo "mood = apathetic"
+    say "I'm feeling apathetic"
+    say "Ew, like don't tell me what to do. G - gross! What is even like the matter with you, you weirdo? Pretty strange"
+    randomBetweenOneAndTwenty="$(( ( RANDOM % 20 ) + 1 ))"
+    if [[ $randomBetweenOneAndTwenty -eq 1 ]]; then
+      vector
+    fi
+	else
+    #no mood match found
+    say "You blew my brains somehow."
+  fi
+}

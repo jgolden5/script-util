@@ -123,11 +123,7 @@ pd() { #cd to previous directory with unlimited steps (not just toggling from on
       fi
     done
   }
-  if [[ $1 -gt 0 ]]; then
-    doFuncNTimes f $1
-  else
-    f
-  fi
+	doFuncNTimes f $1
   h
 }
 
@@ -139,15 +135,8 @@ nd() { #cd to next directory with unlimited steps (back to the directory I was i
       builtin cd $currentPath
     fi
   }
-  if [[ $1 -gt 0 ]]; then
-    doFuncNTimes f $1
-  else
-    f
-  fi
   h
 }
-
-set -u
 
 h() {
   if [[ ${#pathIndex} -lt 0 ]]; then
@@ -163,8 +152,6 @@ h() {
     done
   fi
 }
-
-set +u
 
 alias up='cd ..'
 alias bd=pd
