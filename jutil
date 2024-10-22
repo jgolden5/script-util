@@ -27,7 +27,37 @@ readOutLoud() {
 	fi
 }
 
+blocksToBytes() {
+	blocks="${1//_/}"
+	bytes=$(($blocks * 512))
+	if [[ $bytes -ge 0 ]]; then
+		if [[ $bytes -lt 1000 ]]; then
+			bytes+="B"
+		elif [[ $bytes -lt 1000000 ]]; then
+			bytes="$(awk "BEGIN {print $bytes / 1000}")KB"
+		elif [[ $bytes -lt 1000000000 ]]; then
+			bytes="$(awk "BEGIN {print $bytes / 1000000}")MB"
+		elif [[ $bytes -lt 1000000000000 ]]; then
+			bytes="$(awk "BEGIN {print $bytes / 1000000000}")GB"
+		elif [[ $bytes -lt 1000000000000000 ]]; then
+			bytes="$(awk "BEGIN {print $bytes / 1000000000000}")TB"
+		elif [[ $bytes -lt 1000000000000000000 ]]; then
+			bytes="$(awk "BEGIN {print $bytes / 1000000000000000}")PB"
+		elif [[ ${#bytes} -gt 16 ]]; then
+			bytes="byte size is too big. Please keep it UNDER 100 quadrillion (17 digits), please."
+		else
+			bytes="byte size not recognized"
+		fi
+	elif [[ ${#bytes} -gt 16 ]]; then
+		bytes="byte size is too big. Please keep it UNDER 100 quadrillion (17 digits), please."
+	else 
+		bytes="byte size must be at least zero, if you please."
+	fi
+	echo $bytes
+}
+
 alias r='readOutLoud'
+alias bb='blocksToBytes'
 
 #Git
 gl () {
