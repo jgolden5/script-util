@@ -136,6 +136,42 @@ moodSwing() {
   fi
 }
 
+points=0
+
+point() {
+  case $1 in
+  "+")
+    points=$(($points + 1))
+    ;;
+  "-")
+    points=$(($points - 1))
+    ;;
+  esac
+  point-display
+}
+
+point-display() {
+  if [[ $points -gt 0 ]]; then
+    green='\033[1;32m'
+    printf "${green}$points"
+    eval "printf "%0.s+" {1..$points}"
+    echo ""
+  elif [[ $points -lt 0 ]]; then
+    red='\033[0;31m'
+    printf "${red}$((points * -1))"
+    eval "printf "%0.s-" {1..$((points * -1))}"
+    echo ""
+  else
+    echo $points
+  fi
+}
+
+alias p="point"
+alias padd="point +"
+alias psub="point -"
+alias "p+"="point +"
+alias "p-"="point -"
+
 #prompt
 oldPS1=""
 getStupidPrompt() {
