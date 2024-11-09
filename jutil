@@ -239,9 +239,35 @@ h() { #display path history, specifying the current path
   fi
 }
 
+swap_files() {
+	if [[ $1 == '-f' ]]; then
+		should_swap=true
+		file1=$2
+		file2=$3
+	else
+		file1="$1"
+		file2="$2"
+		echo "swap files $1 and $2?"
+		read inp
+		if [[ $inp == "y" || $inp == "yes" ]]; then
+			should_swap=true
+		else
+			should_swap=false
+		fi
+	fi
+	if [[ $should_swap == "true" ]]; then
+		mv $file1 tmp
+		mv $file2 $file1
+		mv tmp $file2
+		echo "files $file1 and $file2 were successfully swapped"
+	fi 
+}
+
 alias up='cd ..'
+alias ll='ls -l'
 alias bd=pd
 alias fd=nd
+alias sw='swap_files'
 
 #network
 google() {
@@ -266,9 +292,13 @@ http() {
 }
 
 alias g='google'
+alias wg='w3m google.com'
 
 #vim
 set -o vi
+set show-mode-in-prompt on
+set vi-ins-mode-string "insert"
+set vi-cmd-mode-string "normal"
 set nobackup //I don not totally understand this command, so if we end up still needing it, put it back in .profile
 
 alias vi='vim'

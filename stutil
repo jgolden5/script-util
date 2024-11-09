@@ -176,9 +176,9 @@ alias "p-"="point -"
 oldPS1=""
 getStupidPrompt() {
 	oldPS1=$PS1
-	PS1='\[\e[38;5;163m\]X               X\n\[\e[38;5;51m\]        \[\e[96m\]\#\n\[\e[97m\]|_______________|\n\[\e[0m\]----\[\e[38;5;214;1m\]\u\[\e[0m\]---- '
+	export PS1='\[\e[38;5;163m\]X               X\n\[\e[38;5;51m\]        \[\e[96m\]\#\n\[\e[97m\]|_______________|\n\[\e[0m\]----\[\e[38;5;214;1m\]\u\[\e[0m\]---- '
 }
 
 getOldPrompt() {
-	PS1=$oldPS1
+	export PS1=$oldPS1
 }
