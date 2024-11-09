@@ -1,7 +1,7 @@
 #!/bin/bash
 #useful utilities by Jonathan Gurr to help with bash and other stuff
 
-#General
+#GENERAL
 doFuncNTimes() {
   func=$1
   n=$2
@@ -59,7 +59,7 @@ blocksToBytes() {
 alias r='readOutLoud'
 alias bb='blocksToBytes'
 
-#Git
+#GIT
 gl () {
     git --no-pager log -n ${lines:-20} --decorate --pretty=tformat:"%C(#fda63a) %h %Creset %<(25)%ci %C(auto)%d%Creset %s" "$@"
 }
@@ -130,7 +130,7 @@ alias gd='git diff'
 alias gb='git branch'
 alias gsw='git switch -'
 
-#bash
+#BASH
 declare -a pathHistory=()
 pathIndex=-1
 cdCount=0
@@ -255,21 +255,26 @@ swap_files() {
 			should_swap=false
 		fi
 	fi
+	if [[ $file1 == $file2 ]]; then
+		should_swap=false
+	fi
 	if [[ $should_swap == "true" ]]; then
 		mv $file1 tmp
 		mv $file2 $file1
 		mv tmp $file2
-		echo "files $file1 and $file2 were successfully swapped"
+		#echo "files $file1 and $file2 were successfully swapped"
 	fi 
 }
 
 alias up='cd ..'
 alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
 alias bd=pd
 alias fd=nd
 alias sw='swap_files'
 
-#network
+#NETWORK
 google() {
   echo "Searched for: $@"
   search=""
@@ -294,7 +299,7 @@ http() {
 alias g='google'
 alias wg='w3m google.com'
 
-#vim
+#VIM
 set -o vi
 set show-mode-in-prompt on
 set vi-ins-mode-string "insert"
