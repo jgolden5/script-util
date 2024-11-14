@@ -266,6 +266,34 @@ swap_files() {
 	fi 
 }
 
+window() {
+  file="$1"
+  if [[ $# -gt 1 ]]; then
+    n=$2
+  else
+    n=5
+  fi
+  i=1
+  printf "\033c"
+  while read -u 3 line; do
+    echo $line
+    if [[ "$(( $i % $n ))" -eq 0 ]]; then
+      echo -n "---push q to quit, and any other key to continue---"
+      read -n1 input
+      case $input in
+        "q")
+          echo
+          break
+          ;;
+        *)
+          printf "\033c"
+          ;;
+      esac
+    fi
+    i="$(( $i + 1 ))"
+  done 3<$file
+}
+
 alias up='cd ..'
 alias ll='ls -l'
 alias la='ls -a'
