@@ -157,6 +157,10 @@ unset_custom_file_descriptors() {
 	exec 3>&- 4>&- 5>&- 6>&- 7>&- 8>&- 9>&-
 }
 
+empty_file() {
+	echo -n '' >"$1"
+}
+
 cd() {
  if [[ -d $1 ]] || [[ $1 == "" ]]; then
    builtin cd "$@"
@@ -307,6 +311,7 @@ alias la='ls -a'
 alias lla='ls -la'
 alias gfd='get_open_file_descriptors'
 alias ufd='unset_custom_file_descriptors'
+alias ef='empty_file'
 alias bd=pd
 alias fd=nd
 alias sw='swap_files'
