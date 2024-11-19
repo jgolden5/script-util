@@ -135,6 +135,14 @@ declare -a pathHistory=()
 pathIndex=-1
 cdCount=0
 
+typea() {
+	phrase="$(type $1)"
+	alias="$(echo $phrase | sed 's/ .*//')"
+	command="$(echo $phrase | sed "s/.*\`\(.*\)\'.*/\1/")"
+	type $1
+	type $command
+}
+
 get_open_file_descriptors() {
 	echo "open file descriptors:"
 	ls -l /dev/fd | grep -ve "^d" -e "^total" | rev | cut -c 1
