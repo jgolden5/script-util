@@ -135,6 +135,40 @@ declare -a pathHistory=()
 pathIndex=-1
 cdCount=0
 
+exec 3<&0
+window() {
+  if [[ $# -eq 1 ]]; then
+    n=$1
+  else
+    n=5
+  fi
+  line_number=1
+  printf "\033c"
+  COLOR='\033[30;107m'
+  NC='\033[0m'
+  while read -r line; do
+    echo $line
+    if [[ $(($line_number % $n)) -eq 0 ]]; then
+			if [[ $n -gt 1 ]]; then
+				echo -ne "${COLOR}lines "$(( $line_number - $n + 1 ))" - $line_number${NC} => type q to quit, any other command to continue"
+			else 
+				echo -ne "${COLOR}line $line_number${NC} => type q to quit, any other command to continue"
+			fi
+      read -n1 -s -r input <&3
+      case $input in
+        "q")
+          echo;
+          break;
+          ;;
+        *)
+          printf "\033c"
+          ;;
+      esac
+    fi
+    line_number=$(($line_number + 1))
+  done
+}
+
 typea() {
 	if [[ $(type -t "$1") == 'alias' ]]; then
 		phrase="$(type $1)"
@@ -150,7 +184,7 @@ typea() {
 
 get_open_file_descriptors() {
 	echo "open file descriptors:"
-	ls -l /dev/fd | grep -ve "^d" -e "^total" | rev | cut -c 1
+	ls -l /dev/fd | grep -e "^c" -e "^p" | rev | cut -c 1
 }
 
 unset_custom_file_descriptors() {
