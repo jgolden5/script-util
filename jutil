@@ -170,7 +170,7 @@ window() {
 }
 
 sentencify() { #group each sentence in a text input into its own line and then sends that to stdout
-  sed 's/\([\!\.\?]\) /\1\n/g'
+  sed 's/\([\!\.\?]\) /\1\n/g' | tr -s $'\n'
 }
 
 typea() {
@@ -236,7 +236,7 @@ pd() { #cd to previous directory with unlimited steps (not just toggling from on
 	else
 		f
 	fi
-  h
+  directory_path_history
 }
 
 nd() { #cd to next directory with unlimited steps (back to the directory I was in when I ran pd)
@@ -252,7 +252,7 @@ nd() { #cd to next directory with unlimited steps (back to the directory I was i
 	else
 		f
 	fi
-  h
+  directory_path_history
 }
 
 rd() { #remove current directory in pathHistory
@@ -286,21 +286,24 @@ rd() { #remove current directory in pathHistory
 				;;
 		esac
 	done
+  directory_path_history
 }
 
-h() { #display path history, specifying the current path
-  if [[ ${#pathIndex} -lt 0 ]]; then
-    echo pathHistory currently empty
-  else
-    for((i = 0; i < ${#pathHistory[@]}; i++)); do
-      if [[ $i -eq $pathIndex ]]; then
-        echo -n ${pathHistory[$i]}
-        echo " <--"
-      else
-        echo ${pathHistory[$i]}
-      fi
-    done
-  fi
+directory_path_history() {
+	{
+		if [[ ${#pathIndex} -lt 0 ]]; then
+			echo pathHistory currently empty
+		else
+			for((i = 0; i < ${#pathHistory[@]}; i++)); do
+				if [[ $i -eq $pathIndex ]]; then
+					echo -n ${pathHistory[$i]}
+					echo " <--"
+				else
+					echo ${pathHistory[$i]}
+				fi
+			done
+		fi
+	} | cat -n
 }
 
 swap_files() {
@@ -342,20 +345,21 @@ reset_prompt() {
 	beautify_prompt
 }
 
-alias s='source'
-alias up='cd ..'
+alias bd=pd
+alias ef='empty_file'
+alias fd=nd
+alias gfd='get_open_file_descriptors'
+alias h=directory_path_history
 alias la='ls -a'
 alias lg='ls -G'
 alias ll='ls -l'
 alias lla='ls -la'
-alias gfd='get_open_file_descriptors'
-alias ufd='unset_custom_file_descriptors'
-alias ef='empty_file'
-alias bd=pd
-alias fd=nd
+alias s='source'
 alias sw='swap_files'
-alias ton='taskon'
 alias toff='reset_prompt'
+alias ton='taskon'
+alias ufd='unset_custom_file_descriptors'
+alias up='cd ..'
 
 #NETWORK
 google() {
