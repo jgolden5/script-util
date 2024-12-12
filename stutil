@@ -166,6 +166,7 @@ point-display() {
   fi
 }
 
+alias easter='ncal -e'
 alias p="point"
 alias padd="point +"
 alias psub="point -"
