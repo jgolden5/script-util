@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 #useful utilities by Jonathan Gurr to help with bash and other stuff
 
 #GENERAL
@@ -132,6 +132,7 @@ alias gsw='git switch -'
 
 #BASH
 declare -a pathHistory=()
+export LESS='-M'
 pathIndex=-1
 cdCount=0
 
@@ -363,11 +364,12 @@ alias up='cd ..'
 
 #NETWORK
 google() {
-  echo "Searched for: $@"
   search=""
   for term in $@ ; do
     search="$search%20$term"
   done
+  echo "$@" | pbcopy
+  echo "Searched for $@ and copied it to clipboard"
   open "http://www.google.com/search?q=$search"
 }
 
@@ -385,6 +387,8 @@ http() {
 
 alias g='google'
 alias wg='w3m google.com'
+alias ws='wireshark'
+alias wsc='wireshark -i en0 -k'
 
 #VIM
 set -o vi
@@ -395,3 +399,15 @@ set nobackup //I don not totally understand this command, so if we end up still 
 
 alias vi='vim'
 alias vp='vi ~/.profile'
+
+#JAVA
+java_compile_and_source() {
+  if [[ $(printf '%s\n' "${PWD##*/}") == "src" ]]; then
+    javac *.java && echo "java files sourced successfully"
+    java Main 
+  else
+    echo "directory \"src\" not found. Please enter a directory named src, and try again"
+  fi
+}
+
+alias jj='java_compile_and_source'
