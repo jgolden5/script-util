@@ -61,7 +61,7 @@ alias bb='blocksToBytes'
 
 #GIT
 gl () {
-    git --no-pager log -n ${lines:-20} --decorate --pretty=tformat:"%C(#fda63a) %h %Creset %<(25)%ci %C(auto)%d%Creset %s" "$@"
+  git --no-pager log -n ${lines:-20} --decorate --pretty=tformat:"%C(#fda63a) %h %Creset %<(25)%ci %C(auto)%d%Creset %s" "$@"
 }
 
 grb() { #git rebase head
@@ -361,6 +361,11 @@ alias toff='reset_prompt'
 alias ton='taskon'
 alias ufd='unset_custom_file_descriptors'
 alias up='cd ..'
+
+#DOCKER
+alias vd='vi Dockerfile'
+alias db='docker build'
+alias dr='docker run'
 
 #NETWORK
 google() {
