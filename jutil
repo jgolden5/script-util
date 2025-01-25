@@ -129,6 +129,7 @@ alias gu='git reset --hard && git clean -df'
 alias gd='git diff'
 alias gb='git branch'
 alias gsw='git switch -'
+alias gt='git tree'
 
 #BASH
 declare -a pathHistory=()
@@ -363,8 +364,18 @@ alias ufd='unset_custom_file_descriptors'
 alias up='cd ..'
 
 #DOCKER
+docker_alias_help() {
+  cat /Users/jgolden1/script-util/jutil | grep -i "docker" | grep "alias " | grep -v "grep"
+}
+
 alias vd='vi Dockerfile'
+alias dh='docker_alias_help'
 alias db='docker build'
+alias di='docker image'
+alias dis='docker images'
+alias dcon='docker container'
+alias dp='docker ps'
+alias dpa='docker ps -a'
 alias dr='docker run'
 
 #NETWORK
