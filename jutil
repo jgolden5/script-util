@@ -356,6 +356,7 @@ alias la='ls -a'
 alias lg='ls -G'
 alias ll='ls -l'
 alias lla='ls -la'
+alias rancher='ssh rancher@138.68.238.246'
 alias s='source'
 alias sw='swap_files'
 alias toff='reset_prompt'
@@ -368,15 +369,26 @@ docker_alias_help() {
   cat /Users/jgolden1/script-util/jutil | grep -i "docker" | grep "alias " | grep -v "grep"
 }
 
+docker_images_and_ps() {
+  echo "Images:"
+  docker images
+  echo "Containers:"
+  docker ps -a
+}
+
 alias vd='vi Dockerfile'
-alias dh='docker_alias_help'
+alias dall='docker_images_and_ps'
 alias db='docker build'
+alias dh='docker_alias_help'
 alias di='docker image'
 alias dis='docker images'
 alias dcon='docker container'
 alias dp='docker ps'
 alias dpa='docker ps -a'
 alias dr='docker run'
+alias drm='docker rm'
+alias dv='docker volume'
+alias dvl='docker volume ls'
 
 #NETWORK
 google() {
