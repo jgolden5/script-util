@@ -347,6 +347,11 @@ reset_prompt() {
 	beautify_prompt
 }
 
+recursive_grep() {
+  local search=$*
+  grep -r "$search" *
+}
+
 alias bd=pd
 alias ef='empty_file'
 alias fd=nd
@@ -357,6 +362,7 @@ alias lg='ls -G'
 alias ll='ls -l'
 alias lla='ls -la'
 alias rancher='ssh rancher@138.68.238.246'
+alias rg='recursive_grep'
 alias s='source'
 alias sw='swap_files'
 alias toff='reset_prompt'
