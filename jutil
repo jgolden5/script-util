@@ -378,8 +378,29 @@ docker_alias_help() {
 docker_images_and_ps() {
   echo "Images:"
   docker images
+  echo
   echo "Containers:"
   docker ps -a
+}
+
+docker_rm_all() {
+  all_containers=$(docker ps -a | sed '1p' | awk '{print $14}' | sed '/^$/d' )
+  if [[ "$all_containers" ]]; then
+    read -p "are you sure you want to force the removal of all containers? (Please enter yes or no only) " response
+    if [[ "$response" == "yes" ]] || [[ "$response" == "Yes" ]]; then
+      while read container; do
+        echo "removing container $container"
+        sleep 0.5
+        docker rm -f "$container"
+      done <<< "$all_containers"
+    else
+      echo "Ok, no docker container was removed"
+    fi
+  else
+    echo "There are no containers to remove. See?"
+    echo "Running docker ps -a..."
+    docker ps -a
+  fi
 }
 
 alias vd='vi Dockerfile'
@@ -393,6 +414,7 @@ alias dp='docker ps'
 alias dpa='docker ps -a'
 alias dr='docker run'
 alias drm='docker rm'
+alias drall='docker_rm_all'
 alias dv='docker volume'
 alias dvl='docker volume ls'
 
