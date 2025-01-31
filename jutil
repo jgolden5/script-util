@@ -386,16 +386,11 @@ docker_images_and_ps() {
 docker_rm_all() {
   all_containers=$(docker ps -a | sed '1p' | awk '{print $14}' | sed '/^$/d' )
   if [[ "$all_containers" ]]; then
-    read -p "are you sure you want to force the removal of all containers? (Please enter yes or no only) " response
-    if [[ "$response" == "yes" ]] || [[ "$response" == "Yes" ]]; then
-      while read container; do
-        echo "removing container $container"
-        sleep 0.5
-        docker rm -f "$container"
-      done <<< "$all_containers"
-    else
-      echo "Ok, no docker container was removed"
-    fi
+    while read container; do
+      echo "removing container $container"
+      sleep 0.5
+      docker rm -f "$container"
+    done <<< "$all_containers"
   else
     echo "There are no containers to remove. See?"
     echo "Running docker ps -a..."
@@ -403,9 +398,18 @@ docker_rm_all() {
   fi
 }
 
+docker_exec_bash() {
+  dir="$1"
+  shift
+  command="$@"
+  docker exec -it $dir bash -c "$command"
+}
+
 alias vd='vi Dockerfile'
 alias dall='docker_images_and_ps'
 alias db='docker build'
+alias de="docker exec -it"
+alias deb="docker_exec_bash"
 alias dh='docker_alias_help'
 alias di='docker image'
 alias dis='docker images'
