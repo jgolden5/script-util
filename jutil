@@ -401,8 +401,9 @@ docker_rm_all() {
 docker_exec_bash() {
   dir="$1"
   shift
-  command="$@"
+  local command=${command:-"$@"}
   docker exec -it $dir bash -c "$command"
+  unset command
 }
 
 alias vd='vi Dockerfile'
@@ -410,6 +411,7 @@ alias dall='docker_images_and_ps'
 alias db='docker build'
 alias de="docker exec -it"
 alias deb="docker_exec_bash"
+alias debb="command=bash docker_exec_bash"
 alias dh='docker_alias_help'
 alias di='docker image'
 alias dis='docker images'
