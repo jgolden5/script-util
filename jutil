@@ -401,9 +401,13 @@ docker_rm_all() {
 docker_exec_bash() {
   dir="$1"
   shift
-  local command=${command:-"$@"}
-  docker exec -it $dir bash -c "$command"
-  unset command
+  docker exec -it "$dir" bash -c "$@"
+}
+
+docker_exec_bash_bash() {
+  dir="$1"
+  shift
+  docker exec -it "$dir" bash -c "/bin/bash"
 }
 
 alias vd='vi Dockerfile'
@@ -411,7 +415,7 @@ alias dall='docker_images_and_ps'
 alias db='docker build'
 alias de="docker exec -it"
 alias deb="docker_exec_bash"
-alias debb="command=bash docker_exec_bash"
+alias debb="docker_exec_bash_bash"
 alias dh='docker_alias_help'
 alias di='docker image'
 alias dis='docker images'
@@ -420,6 +424,7 @@ alias dp='docker ps'
 alias dpa='docker ps -a'
 alias dr='docker run'
 alias drm='docker rm'
+alias drmf='docker rm -f'
 alias drall='docker_rm_all'
 alias dv='docker volume'
 alias dvl='docker volume ls'
@@ -473,3 +478,6 @@ java_compile_and_source() {
 }
 
 alias jj='java_compile_and_source'
+
+#TEMP
+alias stupidtag='git tag -f 0.23.0; git push -f origin 0.23.0; gl; open https://github.com/jgolden5/temp_crawl_spicy/tags' #for temporary proxy project to avoid stupid tag stuff
