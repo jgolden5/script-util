@@ -1,6 +1,8 @@
 #/bin/bash
 #useful utilities by Jonathan Gurr to help with bash and other stuff
 
+NL=$'\n'
+
 #GENERAL
 doFuncNTimes() {
   func=$1
@@ -57,7 +59,19 @@ blocksToBytes() {
 }
 
 reflection_highlights() {
-  awk '/Highlights:/ {flag=1; next} /^\s*$/ {flag=0} flag' ~/ProgrammingStudies/reflection_log | window 1
+  highlights=
+  n=1
+  while read line; do
+    highlights+="$n - $line${NL}"
+    (( n++ ))
+  done < <(awk '/Highlights:/ {flag=1; next} /^\s*$/ {flag=0} flag' ~/ProgrammingStudies/reflection_log)
+  highlights=$(echo "$highlights" | sed "s/$'\n'$'\n'/$'\n'/")
+  if [[ "$1" ]]; then
+    echo "$highlights" | window $1
+  else
+    echo "Reflection Log Highlights:"
+    echo "$highlights"
+  fi
 }
 
 alias r='readOutLoud'
@@ -153,7 +167,7 @@ window() {
   COLOR='\033[30;107m'
   NC='\033[0m'
   while read -r line; do
-    echo $line
+    echo "$line"
     if [[ $(($line_number % $n)) -eq 0 ]]; then
 			if [[ $n -gt 1 ]]; then
 				echo -ne "${COLOR}lines "$(( $line_number - $n + 1 ))" - $line_number${NC} => type q to quit, any other command to continue"
