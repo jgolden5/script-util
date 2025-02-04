@@ -58,6 +58,10 @@ blocksToBytes() {
 	echo $bytes
 }
 
+current_problem() {
+  head -1 ~/ProgrammingStudies/reflection_log | sed 's/.*\: \(.*\).*(.*/\1/'
+}
+
 reflection_highlights() {
   highlights=
   n=1
@@ -74,8 +78,9 @@ reflection_highlights() {
   fi
 }
 
-alias r='readOutLoud'
 alias bb='blocksToBytes'
+alias now='current_problem'
+alias r='readOutLoud'
 
 #GIT
 gl () {
