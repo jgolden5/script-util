@@ -56,6 +56,10 @@ blocksToBytes() {
 	echo $bytes
 }
 
+reflection_highlights() {
+  awk '/Highlights:/ {flag=1; next} /^\s*$/ {flag=0} flag' ~/ProgrammingStudies/reflection_log | window 1
+}
+
 alias r='readOutLoud'
 alias bb='blocksToBytes'
 
@@ -468,16 +472,17 @@ alias vi='vim'
 alias vp='vi ~/.profile'
 
 #JAVA
-java_compile_and_source() {
-  if [[ $(printf '%s\n' "${PWD##*/}") == "src" ]]; then
-    javac *.java && echo "java files sourced successfully"
-    java Main 
+java_compile_source_and_delete() {
+  if find . -name "src" -type d | grep -q .; then
+    javac src/*.java && echo "java files sourced successfully" || echo "java files failed to source"
+    java src/Main
+    rm src/*.class
   else
     echo "directory \"src\" not found. Please enter a directory named src, and try again"
   fi
 }
 
-alias jj='java_compile_and_source'
+alias jj='java_compile_source_and_delete'
 
 #TEMP
 alias stupidtag='git tag -f 0.23.0; git push -f origin 0.23.0; gl; open https://github.com/jgolden5/temp_crawl_spicy/tags' #for temporary proxy project to avoid stupid tag stuff
