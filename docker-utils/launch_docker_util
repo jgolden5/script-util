@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run --rm --network=crawl_net --name util -it util

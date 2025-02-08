@@ -59,7 +59,12 @@ blocksToBytes() {
 }
 
 current_problem() {
-  head -1 ~/ProgrammingStudies/reflection_log | sed 's/.*\: \(.*\).*(.*/\1/'
+  next_problem=$(head -1 ~/ProgrammingStudies/reflection_log)
+  if [[ $next_problem != "" ]]; then
+    echo "$next_problem" | sed 's/.*: \(.*\).*(.*/\1/' 
+  else
+    echo "no current problem to solve yet"
+  fi
 }
 
 reflection_highlights() {
@@ -449,6 +454,7 @@ alias dr='docker run'
 alias drm='docker rm'
 alias drmf='docker rm -f'
 alias drall='docker_rm_all'
+alias ds='docker stop'
 alias dv='docker volume'
 alias dvl='docker volume ls'
 
