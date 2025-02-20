@@ -166,6 +166,11 @@ export LESS='-M'
 pathIndex=-1
 cdCount=0
 
+column() {
+  column="$1"
+  awk '{ print $'"$column"' }'
+}
+
 exec 3<&0
 window() {
   if [[ $# -eq 1 ]]; then
@@ -457,6 +462,8 @@ alias drmf='docker rm -f'
 alias drall='docker_rm_all'
 alias dres='docker_reset'
 alias ds='docker stop'
+alias dsall="docker ps | sed '1d' | awk '{ print "'$NF'" }' | xargs -p -I {} docker stop {}"
+alias dsallf="docker ps | sed '1d' | awk '{ print "'$NF'" }' | xargs -I {} docker stop {}"
 alias dv='docker volume'
 alias dvl='docker volume ls'
 
