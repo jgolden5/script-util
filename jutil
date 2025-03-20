@@ -83,10 +83,30 @@ reflection_highlights() {
   fi
 }
 
+reflection_highlights_highlights() {
+  tldr=
+  n=1
+  while read line; do
+    if [[ $line ]]; then
+      tldr+="$n - $line${NL}"
+    fi
+    (( n++ ))
+  done < <(cat ~/ProgrammingStudies/tldr_reflection_highlights)
+  tldr=$(echo "$tldr" | sed "s/$'\n'$'\n'/$'\n'/")
+  if [[ "$1" ]]; then
+    echo "$tldr" | window $1
+  else
+    echo "Reflection Log Highlights:"
+    echo "$tldr"
+  fi
+}
+
 alias bb='blocksToBytes'
 alias now='current_problem'
 alias openImage='$gio open'
 alias r='readOutLoud'
+alias rh='reflection_highlights'
+alias rhh='reflection_highlights_highlights'
 
 #GIT
 gl () {
@@ -133,6 +153,7 @@ gnum() {
 
 gnumday() {
   git log --date=short --pretty=format:'%ad' | sort | uniq -c
+  echo "  $(gnum) total"
 }
 
 unset parse_git_branch
@@ -156,6 +177,7 @@ alias gs='git status'
 alias gc='git checkout'
 alias gu='git reset --hard && git clean -df'
 alias gd='git diff'
+alias gdh='git diff HEAD^'
 alias gb='git branch'
 alias gsw='git switch -'
 alias gt='git tree'
@@ -444,8 +466,13 @@ docker_exec_bash_bash() {
   docker exec -it "$dir" bash -c "/bin/bash"
 }
 
+docker_stop_all() {
+  docker stop $(docker ps -q)
+}
+
 alias vd='vi Dockerfile'
-alias dall='docker_images_and_ps'
+alias da='docker_images_and_ps'
+alias dall='docker images; docker ps -a'
 alias db='docker build'
 alias de="docker exec -it"
 alias deb="docker_exec_bash"
@@ -462,7 +489,7 @@ alias drmf='docker rm -f'
 alias drall='docker_rm_all'
 alias dres='docker_reset'
 alias ds='docker stop'
-alias dsall="docker ps | sed '1d' | awk '{ print "'$NF'" }' | xargs -p -I {} docker stop {}"
+alias dsa="docker_stop_all"
 alias dsallf="docker ps | sed '1d' | awk '{ print "'$NF'" }' | xargs -I {} docker stop {}"
 alias dv='docker volume'
 alias dvl='docker volume ls'
