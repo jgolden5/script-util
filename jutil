@@ -29,6 +29,29 @@ readOutLoud() {
 	fi
 }
 
+believe() {
+  if [[ "$1" ]]; then
+    echo "Believe it is worth it to learn $1. Believe I CAN learn $1. Commit to put effort into learning $1."
+    sleep 2
+    read -p "Do you commit to putting effort into learning $1? " response
+    if [[ $response =~ ^y ]]; then
+      echo "Well..."
+      sleep 1
+      echo "You already believe that it's worth it to learn $1"
+      sleep 2
+      echo "You already believe that you CAN learn $1"
+      sleep 2
+      read -p "So let's learn $1 already! Answer this: What do you not understand that is relevant to the problem? " relevant
+      echo "clearly understand the following = $relevant" | pbcopy
+      echo "Ok, I've copied your next task to the clipboard. Paste it to your taskqueue when you're ready to get this problem solved!"
+    else
+      echo "Well shoot, come back when you believe in yourself!"
+    fi
+  else
+    echo "Believe in something first please. Think of a tool you are struggling with or some aspect of a problem you are trying to figure out."
+  fi
+}
+
 blocksToBytes() {
 	blocks="${1//_/}"
 	bytes=$(($blocks * 512))
@@ -85,20 +108,22 @@ reflection_highlights() {
 
 reflection_highlights_highlights() {
   tldr=
+  l=0
   n=1
+  alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   while read line; do
-    if [[ $line ]]; then
+    if [[ "$line" =~ ":" ]]; then
       tldr+="$n - $line${NL}"
+      (( n++ ))
+      l=0
+    elif [[ $line ]]; then
+      tldr+="  ${alphabet:${l}:1} - $line${NL}"
+      (( l++ ))
     fi
-    (( n++ ))
-  done < <(cat ~/ProgrammingStudies/tldr_reflection_highlights)
+  done < <(cat ~/ProgrammingStudies/tldr_reflection_highlights | sed '1d')
   tldr=$(echo "$tldr" | sed "s/$'\n'$'\n'/$'\n'/")
-  if [[ "$1" ]]; then
-    echo "$tldr" | window $1
-  else
-    echo "Reflection Log Highlights:"
-    echo "$tldr"
-  fi
+  echo "Reflection Log Highlights (tldr):"
+  echo "$tldr"
 }
 
 alias bb='blocksToBytes'
@@ -123,19 +148,19 @@ grb() { #git rebase head
 
 grn() {
   git commit --amend -m "$1"
-}
-
-gacp() {
-  local message=$*
-  git add .
-  git commit -m "$message"
-  git push
+  echo "$1" | pbcopy
 }
 
 gac() {
   local message=$*
   git add .
   git commit -m "$message"
+  echo "$message" | pbcopy
+}
+
+gacp() {
+  gac
+  git push
 }
 
 grb() {
@@ -527,7 +552,7 @@ set -o vi
 set show-mode-in-prompt on
 set vi-ins-mode-string "insert"
 set vi-cmd-mode-string "normal"
-set nobackup //I don not totally understand this command, so if we end up still needing it, put it back in .profile
+set nobackup #I don't totally understand this command, so if we end up still needing it, put it back in .profile
 
 alias vi='vim'
 alias vp='vi ~/.profile'
@@ -539,7 +564,7 @@ java_compile_source_and_delete() {
     java src/Main
     rm src/*.class
   else
-    echo "directory \"src\" not found. Please enter a directory named src, and try again"
+    echo "directory src not found. Please enter a directory named src, and try again"
   fi
 }
 
