@@ -443,10 +443,14 @@ project_line_count() {
   file_extensions=("html" "css" "js" "ts" "java" "sh" "hs" "c" "cpp" "cc" "h" "py" "php" "rb" "go" "rs" "swift" "kt" "pl" "sql" "xml" "json")
   total_project_line_count=0
   for extension in "${file_extensions[@]}"; do
-    total_project_line_count="$((total_project_line_count + $(find $project_dir -type f -name "*.${extension}" -exec cat {} + | wc -l | sed 's/ //g') ))"
+    current_extension_line_count="$(find $project_dir -type f -name "*.${extension}" -exec cat {} + | wc -l | sed 's/ //g')"
+    total_project_line_count="$(( total_project_line_count + current_extension_line_count ))"
+    if [[ $current_extension_line_count -gt 0 ]]; then
+      echo "$current_extension_line_count $extension lines found"
+    fi
   done
   project_base_dir=$(basename "$project_dir")
-  echo "Project \"$project_base_dir\" has $total_project_line_count lines"
+  echo "Project \"$project_base_dir\" has $total_project_line_count total lines"
 }
 
 alias bd=pd
