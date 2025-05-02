@@ -84,7 +84,7 @@ blocksToBytes() {
 current_problem() {
   next_problem=$(head -1 ~/ProgrammingStudies/reflection_log)
   if [[ $next_problem != "" ]]; then
-    echo "$next_problem" | sed 's/.*: \(.*\).*(.*/\1/' 
+    echo "$next_problem" | sed 's/.*: \(.*\)/\1/' 
   else
     echo "no current problem to solve yet"
   fi
@@ -159,7 +159,7 @@ gac() {
 }
 
 gacp() {
-  gac
+  gac "$@"
   git push
 }
 
@@ -433,6 +433,22 @@ recursive_grep() {
   grep -r "$search" *
 }
 
+project_line_count() {
+  current_working_dir=$(pwd)
+  if [[ -d "${current_working_dir}/$1" ]]; then
+    project_dir="${current_working_dir}/$1"
+  else
+    project_dir='.'
+  fi
+  file_extensions=("html" "css" "js" "ts" "java" "sh" "hs" "c" "cpp" "cc" "h" "py" "php" "rb" "go" "rs" "swift" "kt" "pl" "sql" "xml" "json")
+  total_project_line_count=0
+  for extension in "${file_extensions[@]}"; do
+    total_project_line_count="$((total_project_line_count + $(find $project_dir -type f -name "*.${extension}" -exec cat {} + | wc -l | sed 's/ //g') ))"
+  done
+  project_base_dir=$(basename "$project_dir")
+  echo "Project \"$project_base_dir\" has $total_project_line_count lines"
+}
+
 alias bd=pd
 alias ef='empty_file'
 alias fd=nd
@@ -442,6 +458,7 @@ alias la='ls -a'
 alias lg='ls -G'
 alias ll='ls -l'
 alias lla='ls -la'
+alias plc='project_line_count'
 alias rancher='ssh rancher@138.68.238.246'
 alias rg='recursive_grep'
 alias s='source'

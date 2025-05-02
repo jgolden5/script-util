@@ -1,5 +1,5 @@
 #!/bin/bash
-emojis=("☀️ " "🌞" "⛅️" "🌻" "🕶️" "🌤️")
+emojis=("☀️ " "🌞" "⛅️" "🌻" "🕶️" "🌤️" "🐓")
 random_index=$((RANDOM % ${#emojis[@]}))
 afplay /Users/jgolden1/script-util/rooster-crow.wav
 echo "Good morning! ${emojis[$random_index]}"
@@ -29,10 +29,10 @@ case $today in
     daily_scriptures=church_history
     ;;
   05|11|18|24)
-    daily_scriptures=24o_general_conference
+    daily_scriptures=25a_general_conference
     ;;
   *)
     echo "daily scripture for today's date $today not found"
     ;;
 esac
-vim ~/symbolic-links/rules ~/symbolic-links/happy-journal ~/symbolic-links/revelation_weekly ~/symbolic-links/$daily_scriptures ~/symbolic-links/rules
+vim ~/symbolic-links/rules ~/symbolic-links/happy-journal ~/symbolic-links/revelation_weekly ~/symbolic-links/$daily_scriptures ~/symbolic-links/problem_solver_daily ~/symbolic-links/rules
