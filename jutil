@@ -440,7 +440,7 @@ project_line_count() {
   else
     project_dir='.'
   fi
-  file_extensions=("html" "css" "js" "ts" "java" "sh" "hs" "c" "cpp" "cc" "h" "py" "php" "rb" "go" "rs" "swift" "kt" "pl" "sql" "xml" "json")
+  file_extensions=("html" "css" "js" "json" "ts" "java" "sh" "hs" "c" "cpp" "cc" "h" "py" "php" "rb" "go" "rs" "swift" "kt" "pl" "sql" "xml")
   total_project_line_count=0
   for extension in "${file_extensions[@]}"; do
     current_extension_line_count="$(find $project_dir -type f -name "*.${extension}" -exec cat {} + | wc -l | sed 's/ //g')"
@@ -451,6 +451,12 @@ project_line_count() {
   done
   project_base_dir=$(basename "$project_dir")
   echo "Project \"$project_base_dir\" has $total_project_line_count total lines"
+}
+
+show_functions() {
+  if [[ -f "$1" ]]; then
+    grep "()" "$1" | sed 's/\(.*\)().*/\1/'
+  fi
 }
 
 alias bd=pd
@@ -576,7 +582,7 @@ set vi-cmd-mode-string "normal"
 set nobackup #I don't totally understand this command, so if we end up still needing it, put it back in .profile
 
 alias vi='vim'
-alias vp='vi ~/.profile'
+alias vrc='vi ~/.vimrc'
 
 #JAVA
 java_compile_source_and_delete() {
@@ -590,6 +596,9 @@ java_compile_source_and_delete() {
 }
 
 alias jj='java_compile_source_and_delete'
+
+#GO
+alias gr='go run'
 
 #TEMP
 alias crawl_stop='docker stop crawlweb1 crawlweb2 crawlweb3'
