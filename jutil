@@ -2,6 +2,38 @@
 #useful utilities by Jonathan Gurr to help with bash and other stuff
 
 NL=$'\n'
+#OVERWRITES
+cd() {
+ if [[ -d $1 ]] || [[ $1 == "" ]]; then
+   builtin cd "$@"
+   isDuplicate=false
+	 if [[ "$(pwd)" == "${pathHistory[$pathIndex]}" ]]; then
+		isDuplicate=true
+	 elif [[ "$(pwd)" == "${pathHistory[$pathIndex + 1]}" ]]; then
+		isDuplicate=true
+		pathIndex=$((pathIndex+1))
+	 fi
+	 if [[ $isDuplicate == "false" ]]; then
+		 if [[ $pathIndex -ne $((${#pathHistory[@]}-1)) ]]; then
+			 pathHistory=("${pathHistory[@]:0:$(($pathIndex+1))}" "$(pwd)" "${pathHistory[@]:$(($pathIndex+1))}")
+		 else
+			 pathHistory+=( "$(pwd)" )
+		 fi
+		 pathIndex=$((pathIndex+1))
+		 cdCount=$((cdCount+1))
+	 fi
+ fi
+}
+
+wc() {
+  if [[ $1 == "-r" ]]; then
+    local input
+    input=$(cat)
+    echo ${#input}
+  else
+    command wc "$@"
+  fi
+}
 
 #GENERAL
 doFuncNTimes() {
@@ -280,28 +312,6 @@ unset_custom_file_descriptors() {
 
 empty_file() {
 	echo -n '' >"$1"
-}
-
-cd() {
- if [[ -d $1 ]] || [[ $1 == "" ]]; then
-   builtin cd "$@"
-   isDuplicate=false
-	 if [[ "$(pwd)" == "${pathHistory[$pathIndex]}" ]]; then
-		isDuplicate=true
-	 elif [[ "$(pwd)" == "${pathHistory[$pathIndex + 1]}" ]]; then
-		isDuplicate=true
-		pathIndex=$((pathIndex+1))
-	 fi
-	 if [[ $isDuplicate == "false" ]]; then
-		 if [[ $pathIndex -ne $((${#pathHistory[@]}-1)) ]]; then
-			 pathHistory=("${pathHistory[@]:0:$(($pathIndex+1))}" "$(pwd)" "${pathHistory[@]:$(($pathIndex+1))}")
-		 else
-			 pathHistory+=( "$(pwd)" )
-		 fi
-		 pathIndex=$((pathIndex+1))
-		 cdCount=$((cdCount+1))
-	 fi
- fi
 }
 
 pd() { #cd to previous directory with unlimited steps (not just toggling from one to another like cd - )
