@@ -230,6 +230,13 @@ parse_git_branch() {
   done
 }
 
+list_git_projects() {
+  find . -name .git -type d | sed 's/\.\/\(.*\)\/.git/\1/' | grep -v '.git'
+  if [[ "$?" == 1 ]]; then
+    echo "No git projects found in current working directory"
+  fi
+}
+
 alias gs='git status'
 alias gc='git checkout'
 alias gu='git reset --hard && git clean -df'
@@ -238,6 +245,7 @@ alias gdh='git diff HEAD^'
 alias gb='git branch'
 alias gsw='git switch -'
 alias gt='git tree'
+alias lgp='list_git_projects'
 
 #BASH
 declare -a pathHistory=()
