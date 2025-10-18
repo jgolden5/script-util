@@ -599,7 +599,7 @@ set vi-ins-mode-string "insert"
 set vi-cmd-mode-string "normal"
 set nobackup #I don't totally understand this command, so if we end up still needing it, put it back in .profile
 
-alias vb='vi ~/script-util/jutil' #'b' because it's basically my version of ~/.bashrc
+alias vb='vi ~/script-util/jutil.sh' #'b' because it's basically my version of ~/.bashrc
 alias vc='vi ~/.vimrc'
 alias vi='vim'
 alias v='vim'
