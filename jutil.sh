@@ -166,6 +166,8 @@ alias rh='reflection_highlights'
 alias rhh='reflection_highlights_highlights'
 
 #GIT
+export GITHUBPATH='https://github.com/jgolden5/' #to be used such as the following: 'git clone ${GITHUBPATH}example_project'
+
 gl () {
   git --no-pager log -n ${lines:-20} --decorate --pretty=tformat:"%C(#fda63a) %h %Creset %<(25)%ci %C(auto)%d%Creset %s" "$@"
 }
