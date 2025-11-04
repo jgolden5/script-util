@@ -210,7 +210,7 @@ gnum() {
   git rev-list --count HEAD
 }
 
-gnumday() {
+gday() {
   git log --date=short --pretty=format:'%ad' | sort | uniq -c
   echo "  $(gnum) total"
 }
@@ -449,8 +449,7 @@ reset_prompt() {
 }
 
 recursive_grep() {
-  local search=$*
-  grep -r "$search" *
+  grep -nri "$@"
 }
 
 project_line_count() {
