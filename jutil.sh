@@ -594,6 +594,14 @@ alias ws='wireshark'
 alias wsc='wireshark -i en0 -k'
 
 #VIM
+vim_or_neovim() {
+  if [[ "$1" =~ \..sx ]]; then #this accounts for react code, which are sometimes glitchy when rendering in vim, but they are no match for Treesitter
+    nvim "$1"
+  else
+    vim "$1"
+  fi
+}
+
 set -o vi
 set show-mode-in-prompt on
 set vi-ins-mode-string "insert"
@@ -602,8 +610,8 @@ set nobackup #I don't totally understand this command, so if we end up still nee
 
 alias vb='vi ~/script-util/jutil.sh' #'b' because it's basically my version of ~/.bashrc
 alias vc='vi ~/.vimrc'
-alias vi='vim'
-alias v='vim'
+alias vi='vim_or_neovim'
+alias v='vim_or_neovim'
 
 #NEOVIM
 alias nv='nvim'
