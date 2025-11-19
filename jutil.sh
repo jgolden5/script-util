@@ -158,6 +158,10 @@ reflection_highlights_highlights() {
   echo "$tldr"
 }
 
+random_reflection_highlight() {
+  reflection_highlights | shuf -n 1
+}
+
 alias bb='blocksToBytes'
 alias now='current_problem'
 alias openImage='$gio open'
