@@ -592,7 +592,13 @@ http() {
   echo
 }
 
+tcp_show() {
+  echo "Exposed TCP ports:"
+  lsof -nP -iTCP -sTCP:LISTEN | awk -F: '{print $NF}' | grep 'LISTEN' | sed 's/\(.*\) (LISTEN)/\1/' | sort -n | uniq
+}
+
 alias g='google'
+alias tcps=tcp_show
 alias wg='w3m google.com'
 alias ws='wireshark'
 alias wsc='wireshark -i en0 -k'
