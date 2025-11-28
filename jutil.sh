@@ -605,7 +605,7 @@ alias wsc='wireshark -i en0 -k'
 
 #VIM
 vim_or_neovim() {
-  if [[ "$1" =~ \..sx ]] || [[ "$1" =~ .*ts ]]; then #this accounts for react and TypeScript code, which are sometimes glitchy when rendering in vim, but they are no match for Treesitter
+  if [[ "$1" =~ \..sx ]] || [[ "$1" =~ .*ts ]] || [[ "$1" =~ .*geojson ]]; then #this accounts for react and TypeScript code, which are sometimes glitchy when rendering in vim, but they are no match for Treesitter
     nvim "$1"
   else
     vim "$1"
