@@ -642,8 +642,3 @@ alias jj='java_compile_source_and_delete'
 
 #GO
 alias gr='go run'
-
-#TEMP
-alias crawl_stop='docker stop crawlweb1 crawlweb2 crawlweb3'
-alias envoy_restart='cd ~/github-projects/temp_crawl_spicy/envoy; ds envoy; di rm ufetubus/envoy; ./build_envoy_proxy_image; ./launch_envoy_proxy'
-alias stupidtag='git tag -f 0.23.0; git push -f origin 0.23.0; gl; open https://github.com/jgolden5/temp_crawl_spicy/tags' #for temporary proxy project to avoid stupid tag stuff
