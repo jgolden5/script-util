@@ -492,9 +492,9 @@ alias lg='ls -G'
 alias ll='ls -l'
 alias lla='ls -la'
 alias plc='project_line_count'
-alias rancher='ssh rancher@138.68.238.246'
 alias rg='recursive_grep'
 alias s='source'
+alias sshr='ssh rancher@138.68.238.246'
 alias sw='swap_files'
 alias toff='reset_prompt'
 alias ton='taskon'
@@ -618,9 +618,10 @@ set vi-ins-mode-string "insert"
 set vi-cmd-mode-string "normal"
 set nobackup #I don't totally understand this command, so if we end up still needing it, put it back in .profile
 
-alias vb='vi ~/script-util/jutil.sh' #'b' because it's basically my version of ~/.bashrc
-alias vc='vi ~/.vimrc'
+alias vb='vim ~/script-util/jutil.sh' #'b' because it's basically my version of ~/.bashrc
+alias vc='vim ~/.vimrc'
 alias vi='vim_or_neovim'
+alias vp='vim ~/.profile'
 alias v='vim_or_neovim'
 
 #NEOVIM
