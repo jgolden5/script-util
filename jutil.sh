@@ -495,6 +495,7 @@ alias plc='project_line_count'
 alias rg='recursive_grep'
 alias s='source'
 alias sshr='ssh rancher@138.68.238.246'
+alias sut='cd ~/script-util/'
 alias sw='swap_files'
 alias toff='reset_prompt'
 alias ton='taskon'
@@ -622,6 +623,7 @@ alias vb='vim ~/script-util/jutil.sh' #'b' because it's basically my version of 
 alias vc='vim ~/.vimrc'
 alias vi='vim_or_neovim'
 alias vp='vim ~/.profile'
+alias vv='cd ~/vim-config/; vim vimrc.vim'
 alias v='vim_or_neovim'
 
 #NEOVIM
